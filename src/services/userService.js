@@ -1,6 +1,6 @@
 import api from './api';
 
-const USER_ENDPOINT = '/api/users';
+const USER_ENDPOINT = '/users';
 
 // Get current user profile
 const getCurrentUserProfile = async () => {

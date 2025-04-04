@@ -1,7 +1,7 @@
 import api from './api';
 import { jwtDecode } from 'jwt-decode';
 
-const AUTH_ENDPOINT = '/api/auth';
+const AUTH_ENDPOINT = '/auth';
 
 // Register new user
 const register = async (userData) => {
