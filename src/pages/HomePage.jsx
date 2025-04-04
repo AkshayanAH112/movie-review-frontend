@@ -141,7 +141,7 @@ const HomePage = () => {
           <div className="row align-items-center justify-content-center" style={{ padding: '0 15px' }}>
             <div className="col-lg-8 text-center">
               <h1 className="display-4 fw-bold mb-3">
-                DISCOVER <span className="text-primary">MOVIES</span> <FaFilm className="disco-ball" />
+                D <span className="text-primary">MOVIES</span> <FaFilm className="disco-ball" />
               </h1>
               <p className="mb-3">
                 Explore the latest releases, read reviews, and share your thoughts on your favorite films.
