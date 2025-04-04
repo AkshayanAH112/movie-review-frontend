@@ -1,6 +1,6 @@
 import api from './api';
 
-const MOVIES_ENDPOINT = '/movies';
+const MOVIES_ENDPOINT = '/api/movies';
 
 // Get all movies
 const getAllMovies = async () => {

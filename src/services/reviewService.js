@@ -1,6 +1,6 @@
 import api from './api';
 
-const REVIEWS_ENDPOINT = '/reviews';
+const REVIEWS_ENDPOINT = '/api/reviews';
 
 // Get all reviews
 const getAllReviews = async () => {
