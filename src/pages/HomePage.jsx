@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MovieCard from '../components/MovieCard';
 import movieService from '../services/movieService';
 import { FaFilm, FaSpinner, FaStar, FaTicketAlt, FaPlayCircle } from 'react-icons/fa';
+import moviesImage from '../assets/movies.jpg';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -112,17 +113,40 @@ const HomePage = () => {
   return (
     <>
       {/* Hero Section */}
-      <div className="page-header" style={{ padding: '20px 0' }}>
-        <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <div className="row align-items-center" style={{ padding: '0 15px' }}>
-            <div className="col-lg-6 text-center text-lg-start">
+      <div className="page-header" style={{ 
+        padding: '20px 0', 
+        textAlign: 'center',
+        position: 'relative',
+        backgroundImage: `url(${moviesImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
+        {/* Overlay with reduced opacity */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(15, 15, 26, 0.85)',
+          zIndex: 1
+        }}></div>
+        
+        <div className="container" style={{ 
+          maxWidth: '1000px', 
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 2
+        }}>
+          <div className="row align-items-center justify-content-center" style={{ padding: '0 15px' }}>
+            <div className="col-lg-8 text-center">
               <h1 className="display-4 fw-bold mb-3">
                 DISCOVER <span className="text-primary">MOVIES</span> <FaFilm className="disco-ball" />
               </h1>
               <p className="mb-3">
                 Explore the latest releases, read reviews, and share your thoughts on your favorite films.
               </p>
-              <div className="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+              <div className="d-flex flex-wrap gap-3 justify-content-center">
                 <Link to="/movies" className="btn btn-primary btn-lg d-inline-flex align-items-center">
                   <FaTicketAlt className="me-2" /> Browse Movies
                 </Link>
@@ -133,73 +157,79 @@ const HomePage = () => {
                 )}
               </div>
             </div>
-            <div className="col-lg-6 d-none d-lg-block">
-              {featuredMovies.length > 0 && (
-                <div className="featured-movie-card" style={{ maxWidth: '150px', margin: '0 auto' }}>
-                  <Link to={`/movies/${featuredMovies[0].id}`}>
-                    <img 
-                      src={featuredMovies[0].posterUrl || 'https://via.placeholder.com/150x225?text=No+Image'} 
-                      alt={featuredMovies[0].title} 
-                      className="img-fluid rounded shadow-lg" 
-                      style={{ maxHeight: '225px', width: 'auto', margin: '0 auto', display: 'block' }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/150x225?text=Image+Error';
-                      }}
-                    />
-                  </Link>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
 
-      <div className="container py-5">
-        {/* Genre Filter */}
-        <div className="mb-5">
-          <h2 className="mb-4 text-center">Browse by Genre</h2>
-          <div className="d-flex flex-wrap gap-2 justify-content-center">
-            <button
-              className={`btn ${!selectedGenre ? 'btn-primary' : 'btn-outline-light'}`}
-              onClick={() => handleGenreChange('')}
-            >
-              All
-            </button>
-            {genres.map((genre) => (
+      {/* Main Content Section */}
+      <div style={{ 
+        position: 'relative',
+        backgroundImage: `url(${moviesImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        padding: '40px 0'
+      }}>
+        {/* Overlay with reduced opacity */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(15, 15, 26, 0.9)',
+          zIndex: 1
+        }}></div>
+        
+        <div className="container py-5" style={{
+          position: 'relative',
+          zIndex: 2
+        }}>
+          {/* Genre Filter */}
+          <div className="mb-5">
+            <h2 className="mb-4 text-center">Browse by Genre</h2>
+            <div className="d-flex flex-wrap gap-2 justify-content-center">
               <button
-                key={genre}
-                className={`btn ${selectedGenre === genre ? 'btn-primary' : 'btn-outline-light'}`}
-                onClick={() => handleGenreChange(genre)}
+                className={`btn ${!selectedGenre ? 'btn-primary' : 'btn-outline-light'}`}
+                onClick={() => handleGenreChange('')}
               >
-                {genre}
+                All
               </button>
-            ))}
+              {genres.map((genre) => (
+                <button
+                  key={genre}
+                  className={`btn ${selectedGenre === genre ? 'btn-primary' : 'btn-outline-light'}`}
+                  onClick={() => handleGenreChange(genre)}
+                >
+                  {genre}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
+
+          {/* Movie Grid */}
+          <h2 className="mb-4">{selectedGenre ? `${selectedGenre} Movies` : 'Latest Movies'}</h2>
+          {movies.length === 0 ? (
+            <div className="text-center py-5">
+              <p className="lead">No movies found.</p>
+            </div>
+          ) : (
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+              {movies.map((movie) => (
+                <div className="col fade-in" key={movie.id}>
+                  <MovieCard movie={movie} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )}
-
-        {/* Movie Grid */}
-        <h2 className="mb-4">{selectedGenre ? `${selectedGenre} Movies` : 'Latest Movies'}</h2>
-        {movies.length === 0 ? (
-          <div className="text-center py-5">
-            <p className="lead">No movies found.</p>
-          </div>
-        ) : (
-          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            {movies.map((movie) => (
-              <div className="col fade-in" key={movie.id}>
-                <MovieCard movie={movie} />
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </>
   );

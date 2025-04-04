@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaUserPlus, FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaUserPlus, FaUser, FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
+import moviesImage from '../assets/movies.jpg';
+import { toast } from 'react-toastify';
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -53,8 +55,29 @@ const RegisterPage = () => {
       
       await register(userData);
       
-      // Redirect to home page after successful registration
-      navigate('/');
+      // Show success toast with animation
+      toast.success('Registration successful! Welcome to MovieReview', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: 'linear-gradient(to right, #1a1a2e, #16213e)',
+          color: 'white',
+          borderRadius: '10px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
+        }
+      });
+      
+      // Delay redirect to show the toast
+      setTimeout(() => {
+        // Redirect to home page after successful registration
+        navigate('/');
+      }, 2000);
     } catch (err) {
       setError(err.message || 'Registration failed');
     } finally {
@@ -63,16 +86,39 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-5">
-          <div className="login-card">
-            <div className="card-body p-5">
-              <div className="text-center mb-4">
-                <FaUserPlus className="text-primary" size={50} />
-                <h2 className="mt-3 text-white">Register</h2>
-                <p className="text-light">Create a new account</p>
+    <div className="container" style={{ height: '100vh', padding: 0, margin: 0 }}>
+      <div className="row justify-content-center" style={{ height: '100%', margin: 0 }}>
+        <div className="col-md-10" style={{ height: '100%', padding: 0 }}>
+          <div className="login-card" style={{ height: '100%' }}>
+            <div className="row g-0" style={{ height: '100%' }}>
+              {/* Left side with image */}
+              <div className="col-md-5 d-none d-md-block" style={{ padding: 0, height: '100%' }}>
+                <div style={{ height: '100%', overflow: 'hidden' }}>
+                  <img src={moviesImage} alt="Movies" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
               </div>
+              
+              {/* Right side with form */}
+              <div className="col-md-7" style={{ 
+                height: '100%', 
+                overflowY: 'auto', 
+                padding: 20, 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)'
+              }}>
+                <div className="card-body p-5" style={{ width: '100%', height: '100%', overflowY: 'auto', justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
+                  <div className="text-start mb-4">
+                    <Link to="/" className="btn btn-outline-primary btn-sm">
+                      <FaArrowLeft className="me-2" /> Back to Home
+                    </Link>
+                  </div>
+                  <div className="text-center mb-4">
+                    <FaUserPlus className="text-primary" size={50} />
+                    <h2 className="mt-3 text-white">Register</h2>
+                    <p className="text-light">Create a new account</p>
+                  </div>
               
               {error && (
                 <div className="alert alert-danger" role="alert">
@@ -181,6 +227,8 @@ const RegisterPage = () => {
                     Login here
                   </Link>
                 </p>
+              </div>
+                </div>
               </div>
             </div>
           </div>
