@@ -1,9 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
 import './styles/DarkTheme.css';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Components
 import Navbar from './components/Navbar';
@@ -40,14 +43,49 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   return children;
 };
 
+// Layout component to conditionally render navbar and footer
+const AppLayout = ({ children }) => {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  
+  // Add or remove 'auth-body' class to body element based on route
+  React.useEffect(() => {
+    if (isAuthPage) {
+      document.body.classList.add('auth-body');
+    } else {
+      document.body.classList.remove('auth-body');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('auth-body');
+    };
+  }, [isAuthPage]);
+  
+  return (
+    <div className="d-flex flex-column min-vh-100" style={{ 
+      background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)',
+      backgroundAttachment: 'fixed'
+    }}>
+      {!isAuthPage && <Navbar />}
+      <main className={`flex-grow-1 ${isAuthPage ? 'auth-page' : ''}`} style={{ 
+        background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)',
+        backgroundAttachment: 'fixed'
+      }}>
+        {children}
+      </main>
+      {!isAuthPage && <Footer />}
+    </div>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="d-flex flex-column min-vh-100">
-          <Navbar />
-          <main className="flex-grow-1">
-            <Routes>
+        <AppLayout>
+          <ToastContainer />
+          <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
@@ -111,9 +149,7 @@ function App() {
                 } 
               />
             </Routes>
-          </main>
-          <Footer />
-        </div>
+        </AppLayout>
       </Router>
     </AuthProvider>
   );

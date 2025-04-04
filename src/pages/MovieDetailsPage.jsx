@@ -89,7 +89,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className="container py-5">
-      <div className="mb-4">
+      <div className="mb-4 text-start">
         <Link to="/movies" className="btn btn-outline-primary">
           <FaArrowLeft className="me-2" /> Back to Movies
         </Link>

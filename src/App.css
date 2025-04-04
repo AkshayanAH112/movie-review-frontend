@@ -1,8 +1,64 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Auth pages styles */
+.auth-page {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  overflow: hidden;
+}
+
+.auth-page .container {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth-page .row {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.auth-page .login-card {
+  border-radius: 0;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f0f1a;
+}
+
+/* Auth body class for login/register pages */
+.auth-body {
+  overflow: hidden !important;
+  height: 100vh !important;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  color: #ffffff;
+  background-attachment: fixed;
 }
 
 .logo {
@@ -39,4 +95,48 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Input placeholder styles for better visibility */
+::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+  opacity: 1 !important;
+}
+
+:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Style for form controls to ensure dark background and light text */
+.form-control, .input-group-text {
+  background-color: rgba(26, 26, 46, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.form-control:focus {
+  background-color: rgba(26, 26, 46, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}
+
+/* Disco ball animation for the movie icon */
+.disco-ball {
+  animation: spin 5s linear infinite;
+  display: inline-block;
+  color: var(--primary-color);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

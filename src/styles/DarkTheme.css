@@ -40,12 +40,13 @@ a:hover {
 
 /* Navbar Styles */
 .navbar {
-  background: var(--background-darker) !important;
+  background: rgba(7, 7, 17, 0.8) !important;
   border-bottom: 1px solid var(--border-color);
   padding: 15px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .navbar::before {
@@ -64,7 +65,7 @@ a:hover {
 
 .navbar-scrolled {
   padding: 10px 0;
-  background: rgba(7, 7, 17, 0.95) !important;
+  background: rgba(7, 7, 17, 0.7) !important;
   backdrop-filter: blur(10px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
