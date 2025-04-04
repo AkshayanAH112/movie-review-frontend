@@ -1,12 +1,11 @@
-import api from './api';
+import ApiService from './api';
 
 const REVIEWS_ENDPOINT = '/api/reviews';
 
 // Get all reviews
 const getAllReviews = async () => {
   try {
-    const response = await api.get(REVIEWS_ENDPOINT);
-    return response.data;
+    return await ApiService.getAllReviews();
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -15,8 +14,7 @@ const getAllReviews = async () => {
 // Get review by ID
 const getReviewById = async (id) => {
   try {
-    const response = await api.get(`${REVIEWS_ENDPOINT}/${id}`);
-    return response.data;
+    return await ApiService.getReviewById(id);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -25,8 +23,7 @@ const getReviewById = async (id) => {
 // Get reviews by movie ID
 const getReviewsByMovieId = async (movieId) => {
   try {
-    const response = await api.get(`${REVIEWS_ENDPOINT}/movie/${movieId}`);
-    return response.data;
+    return await ApiService.getReviewsByMovieId(movieId);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -35,8 +32,7 @@ const getReviewsByMovieId = async (movieId) => {
 // Get reviews by user ID
 const getReviewsByUserId = async (userId) => {
   try {
-    const response = await api.get(`${REVIEWS_ENDPOINT}/user/${userId}`);
-    return response.data;
+    return await ApiService.getReviewsByUserId(userId);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -45,8 +41,7 @@ const getReviewsByUserId = async (userId) => {
 // Create new review
 const createReview = async (reviewData) => {
   try {
-    const response = await api.post(REVIEWS_ENDPOINT, reviewData);
-    return response.data;
+    return await ApiService.createReview(reviewData);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -55,8 +50,7 @@ const createReview = async (reviewData) => {
 // Update review
 const updateReview = async (id, reviewData) => {
   try {
-    const response = await api.put(`${REVIEWS_ENDPOINT}/${id}`, reviewData);
-    return response.data;
+    return await ApiService.updateReview(id, reviewData);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -65,7 +59,7 @@ const updateReview = async (id, reviewData) => {
 // Delete review
 const deleteReview = async (id) => {
   try {
-    await api.delete(`${REVIEWS_ENDPOINT}/${id}`);
+    await ApiService.deleteReview(id);
     return true;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

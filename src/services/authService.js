@@ -1,4 +1,4 @@
-import api from './api';
+import ApiService from './api';
 import { jwtDecode } from 'jwt-decode';
 
 const AUTH_ENDPOINT = '/api/auth';
@@ -7,18 +7,13 @@ const AUTH_ENDPOINT = '/api/auth';
 const register = async (userData) => {
   try {
     console.log('Attempting to register user:', userData.email);
-    // Use the public registration endpoint that bypasses security filters
-    const response = await api.post(`${AUTH_ENDPOINT}/public/register`, userData, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    const response = await ApiService.registerUser(userData);
     console.log('Registration response:', response);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data));
+    if (response.token) {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response));
     }
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
     if (error.response) {
@@ -37,12 +32,12 @@ const register = async (userData) => {
 // Login user
 const login = async (credentials) => {
   try {
-    const response = await api.post(`${AUTH_ENDPOINT}/login`, credentials);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data));
+    const response = await ApiService.loginUser(credentials);
+    if (response.token) {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response));
     }
-    return response.data;
+    return response;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -50,6 +45,7 @@ const login = async (credentials) => {
 
 // Logout user
 const logout = () => {
+  ApiService.logout();
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 };

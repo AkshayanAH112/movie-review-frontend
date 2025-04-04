@@ -1,12 +1,11 @@
-import api from './api';
+import ApiService from './api';
 
 const MOVIES_ENDPOINT = '/api/movies';
 
 // Get all movies
 const getAllMovies = async () => {
   try {
-    const response = await api.get(MOVIES_ENDPOINT);
-    return response.data;
+    return await ApiService.getAllMovies();
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -15,8 +14,7 @@ const getAllMovies = async () => {
 // Get movie by ID
 const getMovieById = async (id) => {
   try {
-    const response = await api.get(`${MOVIES_ENDPOINT}/${id}`);
-    return response.data;
+    return await ApiService.getMovieById(id);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -25,8 +23,7 @@ const getMovieById = async (id) => {
 // Search movies by title
 const searchMovies = async (title) => {
   try {
-    const response = await api.get(`${MOVIES_ENDPOINT}/search?title=${title}`);
-    return response.data;
+    return await ApiService.searchMovies(title);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -35,8 +32,7 @@ const searchMovies = async (title) => {
 // Get movies by genre
 const getMoviesByGenre = async (genre) => {
   try {
-    const response = await api.get(`${MOVIES_ENDPOINT}/genre/${genre}`);
-    return response.data;
+    return await ApiService.getMoviesByGenre(genre);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -45,8 +41,7 @@ const getMoviesByGenre = async (genre) => {
 // Create new movie (admin only)
 const createMovie = async (movieData) => {
   try {
-    const response = await api.post(MOVIES_ENDPOINT, movieData);
-    return response.data;
+    return await ApiService.createMovie(movieData);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -55,8 +50,7 @@ const createMovie = async (movieData) => {
 // Update movie (admin only)
 const updateMovie = async (id, movieData) => {
   try {
-    const response = await api.put(`${MOVIES_ENDPOINT}/${id}`, movieData);
-    return response.data;
+    return await ApiService.updateMovie(id, movieData);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -65,7 +59,7 @@ const updateMovie = async (id, movieData) => {
 // Delete movie (admin only)
 const deleteMovie = async (id) => {
   try {
-    await api.delete(`${MOVIES_ENDPOINT}/${id}`);
+    await ApiService.deleteMovie(id);
     return true;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
@@ -75,16 +69,7 @@ const deleteMovie = async (id) => {
 // Upload movie poster (admin only)
 const uploadPoster = async (file) => {
   try {
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    const response = await api.post(`${MOVIES_ENDPOINT}/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-    
-    return response.data;
+    return await ApiService.uploadPoster(file);
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
