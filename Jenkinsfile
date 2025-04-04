@@ -20,7 +20,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm install'
-                sh 'npm run build'
+                sh 'npm run build -- --mode production'
                 sh 'ls -la' // List files to see what was created
                 sh 'pwd'    // Show current directory
                 sh 'ls -la ./dist' // Explicitly list dist directory contents
@@ -56,12 +56,12 @@ pipeline {
                             
                             // Copy it to the EC2 instance
                             echo "Copying tar to EC2 instance"
-                            sh "scp -o StrictHostKeyChecking=no build.tar.gz ${EC2_USER}@${EC2_HOST}:/tmp/"
+                            sh "scp -o StrictHostKeyChecking=no build.tar.gz ${EC2_USER}@\${EC2_HOST}:/tmp/"
                             
                             // Extract and deploy on EC2
                             echo "Extracting and deploying on EC2"
                             sh """
-                                ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                ssh -o StrictHostKeyChecking=no ${EC2_USER}@\${EC2_HOST} '
                                     sudo rm -rf /var/www/frontends/*
                                     sudo mkdir -p /var/www/frontends
                                     sudo tar -xzf /tmp/build.tar.gz -C /var/www/frontends/
